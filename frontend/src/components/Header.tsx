@@ -14,7 +14,7 @@ const Header = () => {
   const mutation = useMutation(apiClient.signOut, {
     onSuccess: async () => {
       await queryClient.invalidateQueries('validateToken')
-      showToast({message: "Looged Out", type: 'SUCCESS'})
+      showToast({message: "Logged Out", type: 'SUCCESS'})
       navigate('/sign-in')
     },
     onError: (error: Error) => {
@@ -62,7 +62,7 @@ const Header = () => {
         {isLoggedIn ? (
           <>
             <Navbar.Link active={path === '/'} as={'div'}>
-              <Link to="/hotels" className="text-xl">
+              <Link to="/add-hotel" className="text-xl">
                 Hotels
               </Link>
             </Navbar.Link>

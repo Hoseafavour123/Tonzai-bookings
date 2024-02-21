@@ -1,9 +1,10 @@
 import { RegisterFormData } from "./pages/SignUp";
 import { LoginForm } from "./pages/SignIn";
-import { resolvePath } from "react-router-dom";
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
 export const register = async (formData: RegisterFormData) => {
-    const response = await fetch(`http://localhost:7000/api/users/register`, {
+    const response = await fetch(`${API_BASE_URL}/api/users/register`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -18,7 +19,7 @@ export const register = async (formData: RegisterFormData) => {
 }
 
 export const signIn = async (formData: LoginForm) => {
-    const response = await fetch('http://localhost:7000/api/auth/login', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -35,7 +36,7 @@ export const signIn = async (formData: LoginForm) => {
 }
 
 export const validateToken = async () => {
-    const response = await fetch('http://localhost:7000/api/auth/validate-token', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/validate-token`, {
         credentials: 'include'
     })
     if (!response.ok) {
@@ -45,7 +46,7 @@ export const validateToken = async () => {
 }
 
 export const signOut = async () => {
-    const response = await fetch('http://localhost:7000/api/auth/logout', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
         credentials: 'include',
         method: 'POST'
     });
@@ -53,4 +54,18 @@ export const signOut = async () => {
         throw new Error('Error during sign out')
     }
 
+}
+
+export const addMyHotel = async (hotelFormData: FormData) => {
+    const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
+        method: 'POST',
+        credentials: 'include',
+        body: hotelFormData,
+    })
+
+    if (!response.ok) {
+        throw new Error('Failed to add hotel')
+    }
+
+    return response.json()
 }
