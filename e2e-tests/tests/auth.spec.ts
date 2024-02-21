@@ -23,8 +23,8 @@ test('should allow sign up', async ({ page }) => {
 });
 
 
-test('get started link', async ({ page }) => {
-  await page.goto(`${UI_URL}/sign-in`)
+test('should allow sign in', async ({ page }) => {
+  await page.goto(`${UI_URL}sign-in`)
 
   await expect(page.getByRole('heading', { name: 'Sign In' })).toBeVisible()
   await page.locator('[label=Email]').fill('me@gmail.com')
@@ -35,4 +35,5 @@ test('get started link', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Bookings' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Hotels' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Log Out' })).toBeVisible()
+    
 });
