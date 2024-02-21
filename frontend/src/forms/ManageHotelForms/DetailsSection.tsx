@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form'
-import { FloatingLabel, Textarea, Select, Label } from 'flowbite-react'
+import { FloatingLabel, Textarea, Label } from 'flowbite-react'
 import { HotelFormData } from './ManageHotelForms'
 
 const HotelDetailsSection = () => {
