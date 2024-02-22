@@ -1,6 +1,22 @@
 import { RegisterFormData } from "./pages/SignUp";
 import { LoginForm } from "./pages/SignIn";
-import {HotelType} from "../../backend/src/models/hotel"
+
+export type HotelType = {
+  _id: string
+  userId: string
+  name: string
+  city: string
+  country: string
+  description: string
+  type: string
+  adultCount: number
+  childCount: number
+  facilities: string[]
+  pricePerNight: number
+  starRating: number
+  imageUrls: string[]
+  lastUpdated: Date
+}
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 //const API_BASE_URL = 'https://tonzai-bookings.onrender.com'
