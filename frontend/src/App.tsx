@@ -6,6 +6,7 @@ import Header from './components/Header'
 import FooTer from './components/Footer'
 import AddHotel from './pages/AddHotel'
 import { useAppContext } from './contexts/AppContext'
+import MyHotels from './pages/MyHotels'
 
 function App() {
   const {isLoggedIn} = useAppContext()
@@ -20,6 +21,11 @@ function App() {
         {isLoggedIn && (
           <>
             <Route path="/add-hotel" element={<AddHotel />} />
+          </>
+        )}
+        {isLoggedIn && (
+          <>
+            <Route path="/my-hotels" element={<MyHotels/>} />
           </>
         )}
         <Route path="*" element={<Navigate to="/" />} />

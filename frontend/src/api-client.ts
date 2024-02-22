@@ -1,9 +1,9 @@
 import { RegisterFormData } from "./pages/SignUp";
 import { LoginForm } from "./pages/SignIn";
-//import {HotelType} from "../../backend/src/models/hotel"
+import {HotelType} from "../../backend/src/models/hotel"
 
-//const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
-const API_BASE_URL = 'https://tonzai-bookings.onrender.com'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+//const API_BASE_URL = 'https://tonzai-bookings.onrender.com'
 
 export const register = async (formData: RegisterFormData) => {
     const response = await fetch(`${API_BASE_URL}/api/users/register`, {
@@ -72,7 +72,7 @@ export const addMyHotel = async (hotelFormData: FormData) => {
     return response.json()
 }
 
-export const fetchMyHotels = async () => {
+export const fetchMyHotels = async ():Promise<HotelType[]> => {
     const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
         credentials: 'include'
     })

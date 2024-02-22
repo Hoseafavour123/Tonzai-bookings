@@ -62,13 +62,13 @@ const Header = () => {
         {isLoggedIn ? (
           <>
             <Navbar.Link active={path === '/'} as={'div'}>
-              <Link to="/add-hotel" className="text-xl">
-                Hotels
+              <Link to="/my-hotels" className="text-xl">
+                My Hotels
               </Link>
             </Navbar.Link>
             <Navbar.Link active={path === '/'} as={'div'}>
-              <Link to="/bookings" className="text-xl">
-                Bookings
+              <Link to="/my-bookings" className="text-xl">
+                My Bookings
               </Link>
             </Navbar.Link>
           </>
