@@ -20,7 +20,7 @@ const MyHotels = () => {
 
   const currentHotels = hotelData?.slice(firstHotelIndex, lastHotelIndex)
 
-  if (currentPage === 1000) {
+  if (!hotelData) {
     return (
       <div className="min-h-screen">
         <h1>No available hotels</h1>

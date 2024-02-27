@@ -22,5 +22,4 @@ const Pagination = ({totalPosts, postsPerPage, setCurrentPage, currentPage} : Pr
     </div>
   )
 }
-
 export default Pagination
