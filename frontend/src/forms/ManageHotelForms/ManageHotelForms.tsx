@@ -5,6 +5,8 @@ import FacilitiesSection from "./FacilitiesSection";
 import GuestsSection from "./GuestsSection";
 import ImagesSection from "./ImagesSection";
 import { Button } from "flowbite-react";
+import { HotelType } from "../../api-client";
+import { useEffect } from "react";
 
 export type HotelFormData = {
     name: string;
@@ -16,6 +18,7 @@ export type HotelFormData = {
     starRating: number;
     facilities: string[];
     imageFiles: FileList;
+    imageUrls: string[];
     adultCount: number;
     childCount: number;
 }
@@ -23,14 +26,21 @@ export type HotelFormData = {
 type Props = {
   onSave: (hotelFormData: FormData) => void
   isLoading: boolean
+  hotel?: HotelType
 };
 
-const ManageHotelForms = ({ onSave, isLoading }: Props) => {
+const ManageHotelForms = ({ onSave, isLoading, hotel }: Props) => {
     const formMethods = useForm<HotelFormData>()
-    const { handleSubmit } = formMethods;
+    const { handleSubmit, reset } = formMethods;
 
+    useEffect(() => {
+      reset(hotel)
+    }, [hotel, reset])
     const onSubmit = handleSubmit((formDataJSON: HotelFormData) => {
       const formData = new FormData()
+      if (hotel) {
+        formData.append('hotelId', hotel._id)
+      }
       formData.append('name', formDataJSON.name)
       formData.append('city', formDataJSON.city)
       formData.append('country', formDataJSON.country)
@@ -43,10 +53,15 @@ const ManageHotelForms = ({ onSave, isLoading }: Props) => {
       formDataJSON.facilities.forEach((facility, index) => {
         formData.append(`facilities[${index}]`, facility)
       })
+
+      if (formDataJSON.imageUrls) {
+        formDataJSON.imageUrls.forEach((url, idx) => {
+          formData.append(`imageUrls[${idx}]`, url)
+        })
+      }
       Array.from(formDataJSON.imageFiles).forEach((imageFile) => {
         formData.append(`imageFiles`, imageFile)
       })
-
       onSave(formData)
       
     })

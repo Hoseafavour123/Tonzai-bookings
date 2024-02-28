@@ -7,6 +7,7 @@ import FooTer from './components/Footer'
 import AddHotel from './pages/AddHotel'
 import { useAppContext } from './contexts/AppContext'
 import MyHotels from './pages/MyHotels'
+import EditHotel from './pages/EditHotel'
 
 function App() {
   const {isLoggedIn} = useAppContext()
@@ -25,7 +26,12 @@ function App() {
         )}
         {isLoggedIn && (
           <>
-            <Route path="/my-hotels" element={<MyHotels/>} />
+            <Route path="/my-hotels" element={<MyHotels />} />
+          </>
+        )}
+        {isLoggedIn && (
+          <>
+            <Route path="/edit-hotel/:hotelId" element={<EditHotel />} />
           </>
         )}
         <Route path="*" element={<Navigate to="/" />} />
