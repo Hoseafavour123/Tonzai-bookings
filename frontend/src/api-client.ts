@@ -18,8 +18,8 @@ export type HotelType = {
   lastUpdated: Date
 }
 
-//const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
-const API_BASE_URL = 'https://tonzai-bookings.onrender.com'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+//const API_BASE_URL = 'https://tonzai-bookings.onrender.com'
 
 export const register = async (formData: RegisterFormData) => {
     const response = await fetch(`${API_BASE_URL}/api/users/register`, {

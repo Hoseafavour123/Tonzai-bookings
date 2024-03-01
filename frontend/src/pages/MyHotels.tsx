@@ -31,9 +31,15 @@ const MyHotels = () => {
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-5 max-w-7xl mx-auto">
         {hotelData.map((hotel) => (
           <div className="relative flex align-top gap-2 mb-10 mx-5">
-            <img src={hotel.imageUrls[0]} width={300} height={200} />
+            <img
+              src={hotel.imageUrls[0]}
+              className="max-w-[200px] max-h-[300px]"
+            />
             <div className="flex flex-col flex-1">
-              <h1 className="text-2xl font-bold">{hotel.name}</h1>
+              <h1 className="text-2xl font-bold sm:inline lg:block">{hotel.name}</h1>
+              <span className="lg:hidden inline border-red-500 text-white bg-red-500 px-3 w-20 rounded-full">
+                ${hotel.pricePerNight}
+              </span>
               <span>
                 {hotel.city} - {hotel.country}
               </span>
@@ -57,11 +63,11 @@ const MyHotels = () => {
                 <p>Children: {hotel.childCount}</p>
               </span>
             </div>
-            <span className='absolute left-5 top-0 text-black-600 bg-white px-2'>
+            <span className="absolute left-5 top-0 text-black-600 bg-white px-2">
               <img src={star} width={30} height={30} className="inline" />{' '}
               {hotel.starRating}
             </span>
-            <span className="absolute bottom-0 right-0 max-lg:unset border-red-500 text-white bg-red-500 px-3 rounded-full">
+            <span className="sm:hidden lg:block absolute lg:bottom-0 lg:right-0 max-lg:unset border-red-500 text-white bg-red-500 px-3 rounded-full">
               ${hotel.pricePerNight}
             </span>
 
@@ -69,7 +75,6 @@ const MyHotels = () => {
               <Button className="bg-blue-500 h-6">
                 <Link to={`/edit-hotel/${hotel._id}`}>Edit</Link>
               </Button>
-              <Button className="bg-red-500  h-6">Delete</Button>
             </div>
           </div>
         ))}
