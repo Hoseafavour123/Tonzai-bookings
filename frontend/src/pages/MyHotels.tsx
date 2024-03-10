@@ -25,7 +25,7 @@ const MyHotels = () => {
       <div className="flex flex-shrink-0 justify-between mt-10 mb-10">
         <h1 className="mx-auto font-bold text-3xl">My Hotels</h1>
         <Link to="/add-hotel" className="mx-auto">
-          <Button>Add Hotel</Button>
+          <Button className='bg-purple-500'>Add Hotel</Button>
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-5 max-w-7xl mx-auto">
@@ -33,11 +33,11 @@ const MyHotels = () => {
           <div className="relative flex align-top gap-2 mb-10 mx-5">
             <img
               src={hotel.imageUrls[0]}
-              className="max-w-[200px] max-h-[300px]"
+              className="w-[40%] h-auto flex-2"
             />
             <div className="flex flex-col flex-1">
               <h1 className="text-2xl font-bold sm:inline lg:block">{hotel.name}</h1>
-              <span className="lg:hidden inline border-red-500 text-white bg-red-500 px-3 w-20 rounded-full">
+              <span className="inline border-red-500 text-white bg-red-500 px-3 w-20 rounded-full">
                 ${hotel.pricePerNight}
               </span>
               <span>
@@ -66,10 +66,7 @@ const MyHotels = () => {
             <span className="absolute left-5 top-0 text-black-600 bg-white px-2">
               <img src={star} width={30} height={30} className="inline" />{' '}
               {hotel.starRating}
-            </span>
-            <span className="sm:hidden lg:block absolute lg:bottom-0 lg:right-0 max-lg:unset border-red-500 text-white bg-red-500 px-3 rounded-full">
-              ${hotel.pricePerNight}
-            </span>
+            </span>       
 
             <div className="absolute bottom-0 flex gap-2">
               <Button className="bg-blue-500 h-6">

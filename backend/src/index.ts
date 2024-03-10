@@ -6,6 +6,7 @@ import userRoutes from './routes/users'
 import cookieParser from 'cookie-parser'
 import authRoutes from './routes/auth'
 import myHotelRoutes from './routes/my-hotels'
+import hotelRoutes from './routes/hotels'
 
 import path = require('path')
 import { v2 as cloudinary } from 'cloudinary'
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, '../../frontend/dist')))
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/my-hotels', myHotelRoutes)
+app.use('/api/hotels', hotelRoutes)
 
 app.use('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/../../frontend/dist/index.html'))
