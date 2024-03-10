@@ -147,7 +147,6 @@ export const updateMyHotelById = async (hotelFormData: FormData) => {
     }
     return response.json()
 }
-<<<<<<< HEAD
 
 
 
@@ -175,5 +174,3 @@ export const searchHotels = async (searchParams: SearchParams): Promise<HotelSea
 
     return response.json()
 }
-=======
->>>>>>> 7529ecff205a7632100420966585954a2fa8fe5b
