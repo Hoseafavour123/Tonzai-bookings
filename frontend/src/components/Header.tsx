@@ -38,26 +38,8 @@ const Header = () => {
         Bookings
       </Link>
       <div className="flex gap-5 text-center align-middle md:order-2">
-        {isLoggedIn ? (
-          <Link to="/sign-in" className="">
-            <Button outline className="whitespace-nowrap text-bold text-xl" onClick={handleClick}>
-              Log out
-            </Button>
-          </Link>
-        ) : (
-          <Link to="/sign-up" className="">
-            <Button
-              outline
-              gradientDuoTone="pinkToOrange"
-              className="whitespace-nowrap text-bold text-xl"
-            >
-              Sign Up
-            </Button>
-          </Link>
-        )}
-
-        <Navbar.Toggle />
       </div>
+      <Navbar.Toggle />
       <Navbar.Collapse>
         {isLoggedIn ? (
           <>
@@ -70,6 +52,15 @@ const Header = () => {
               <Link to="/my-bookings" className="text-xl">
                 My Bookings
               </Link>
+               <Link to="/sign-in" className="">
+            <Button
+              outline
+              className="whitespace-nowrap text-bold text-xl max-lg:mt-2"
+              onClick={handleClick}
+            >
+              Log out
+            </Button>
+          </Link>
             </Navbar.Link>
           </>
         ) : (
@@ -84,7 +75,17 @@ const Header = () => {
               <Link to="/about" className="text-xl">
                 About
               </Link>
+
             </Navbar.Link>
+            <Link to="/sign-up" className="">
+            <Button
+              outline
+              gradientDuoTone="pinkToOrange"
+              className="whitespace-nowrap text-bold text-xl "
+            >
+              Sign Up / Login
+            </Button>
+          </Link>
           </>
         )}
       </Navbar.Collapse>
