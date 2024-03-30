@@ -25,18 +25,22 @@ const MyHotels = () => {
       <div className="flex flex-shrink-0 justify-between mt-10 mb-10">
         <h1 className="mx-auto font-bold text-3xl">My Hotels</h1>
         <Link to="/add-hotel" className="mx-auto">
-          <Button className='bg-purple-500'>Add Hotel</Button>
+          <Button className="bg-purple-500">Add Hotel</Button>
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5 mt-5 max-w-7xl mx-auto">
         {hotelData.map((hotel) => (
-          <div className="relative flex align-top gap-2 mb-10 mx-5">
-            <img
-              src={hotel.imageUrls[0]}
-              className="w-[40%] h-auto flex-2"
-            />
+          <div className="relative flex max-lg:flex-col md:flex-col align-top gap-2 mb-10 mx-5">
+            <div className="w-full h-[300px]">
+              <img
+                src={hotel.imageUrls[0]}
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
             <div className="flex flex-col flex-1">
-              <h1 className="text-2xl font-bold sm:inline lg:block">{hotel.name}</h1>
+              <h1 className="text-2xl font-bold sm:inline lg:block">
+                {hotel.name}
+              </h1>
               <span className="inline border-red-500 text-white bg-red-500 px-3 w-20 rounded-full">
                 ${hotel.pricePerNight}
               </span>
@@ -66,9 +70,9 @@ const MyHotels = () => {
             <span className="absolute left-5 top-0 text-black-600 bg-white px-2">
               <img src={star} width={30} height={30} className="inline" />{' '}
               {hotel.starRating}
-            </span>       
+            </span>
 
-            <div className="absolute bottom-0 flex gap-2">
+            <div className=" bottom-0 flex gap-2">
               <Button className="bg-blue-500 h-6">
                 <Link to={`/edit-hotel/${hotel._id}`}>Edit</Link>
               </Button>

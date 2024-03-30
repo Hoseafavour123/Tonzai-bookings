@@ -27,7 +27,7 @@ const Header = () => {
   }
 
   return (
-    <Navbar className="border-b-2 mx-auto flex flex-shrink-0">
+    <Navbar className="container border-b-2 mx-auto flex flex-shrink-0">
       <Link
         to="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
@@ -37,8 +37,6 @@ const Header = () => {
         </span>
         Bookings
       </Link>
-      <div className="flex gap-5 text-center align-middle md:order-2">
-      </div>
       <Navbar.Toggle />
       <Navbar.Collapse>
         {isLoggedIn ? (
@@ -52,15 +50,17 @@ const Header = () => {
               <Link to="/my-bookings" className="text-xl">
                 My Bookings
               </Link>
-               <Link to="/sign-in" className="">
-            <Button
-              outline
-              className="whitespace-nowrap text-bold text-xl max-lg:mt-2"
-              onClick={handleClick}
-            >
-              Log out
-            </Button>
-          </Link>
+            </Navbar.Link>
+            <Navbar.Link>
+              <Link to="/sign-in" className="">
+                <Button
+                  outline
+                  className="whitespace-no-wrap text-bold text-xl max-lg:mt-2"
+                  onClick={handleClick}
+                >
+                  Log out
+                </Button>
+              </Link>
             </Navbar.Link>
           </>
         ) : (
@@ -71,21 +71,15 @@ const Header = () => {
                 Contact
               </Link>
             </Navbar.Link>
-            <Navbar.Link active={path === '/about'} as={'div'}>
-              <Link to="/about" className="text-xl">
-                About
-              </Link>
-
-            </Navbar.Link>
             <Link to="/sign-up" className="">
-            <Button
-              outline
-              gradientDuoTone="pinkToOrange"
-              className="whitespace-nowrap text-bold text-xl "
-            >
-              Sign Up / Login
-            </Button>
-          </Link>
+              <Button
+                outline
+                gradientDuoTone="pinkToOrange"
+                className="whitespace-nowrap text-bold text-xl "
+              >
+                Login
+              </Button>
+            </Link>
           </>
         )}
       </Navbar.Collapse>

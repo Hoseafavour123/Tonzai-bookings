@@ -1,6 +1,15 @@
 import { RegisterFormData } from "./pages/SignUp";
 import { LoginForm } from "./pages/SignIn";
 
+
+export type UserType = {
+  _id: string
+  email: string
+  password: string
+  firstName: string
+  lastName: string
+}
+
 export type HotelType = {
   _id: string
   userId: string
@@ -42,8 +51,19 @@ export type HotelSearchResponse = {
   }
 }
 
-//const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
-const API_BASE_URL = 'https://tonzai-bookings.onrender.com'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+//const API_BASE_URL = 'https://tonzai-bookings.onrender.com'
+
+export const fetchCurrentUser = async (): Promise<UserType> => {
+    const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+        credentials: 'include'
+    })
+
+    if (!response.ok) {
+        throw new Error('Error fetching user')
+    }
+    return response.json()
+}
 
 export const register = async (formData: RegisterFormData) => {
     const response = await fetch(`${API_BASE_URL}/api/users/register`, {
@@ -149,7 +169,6 @@ export const updateMyHotelById = async (hotelFormData: FormData) => {
 }
 
 
-
 export const searchHotels = async (searchParams: SearchParams): Promise<HotelSearchResponse> => {
     const queryParams = new URLSearchParams()
     queryParams.append('destination', searchParams.destination || '')
@@ -173,4 +192,12 @@ export const searchHotels = async (searchParams: SearchParams): Promise<HotelSea
     }
 
     return response.json()
+}
+
+export const fetchHotelById = async (hotelId: string): Promise<HotelType> => {
+    const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}`)
+    if (!response.ok) {
+        throw new Error('Error fetching hotel');
+    }
+    return response.json();
 }
