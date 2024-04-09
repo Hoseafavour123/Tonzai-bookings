@@ -1,9 +1,10 @@
 import express, { query } from 'express'
 import { Request, Response } from 'express'
-import Hotel, { HotelType } from '../models/hotel'
+import Hotel, { BookingType, HotelType } from '../models/hotel'
 import { param, validationResult } from 'express-validator'
+import Stripe from 'stripe'
+import verifyToken from '../middleware/auth'
 const router = express.Router()
-
 
 export type HotelSearchResponse = {
   data: HotelType[]
@@ -14,7 +15,13 @@ export type HotelSearchResponse = {
   }
 }
 
+export type PaymentIntentResponse = {
+  paymentIntentId: string
+  clientSecret: string
+  totalCost: number
+}
 
+const stripe = new Stripe(process.env.STRIPE_API_KEY as string)
 
 router.get('/search', async (req: Request, res: Response) => {
   try {
@@ -24,12 +31,12 @@ router.get('/search', async (req: Request, res: Response) => {
     switch (req.query.sortOption) {
       case 'starRating':
         sortOptions = { starRating: -1 }
-        break;
+        break
       case 'pricePerNightAsc':
-        sortOptions = { pricePerNight: 1};
-        break;
+        sortOptions = { pricePerNight: 1 }
+        break
       case 'pricePerNightDesc':
-        sortOptions = { pricePerNight: -1 };
+        sortOptions = { pricePerNight: -1 }
         break
     }
 
@@ -39,7 +46,10 @@ router.get('/search', async (req: Request, res: Response) => {
     )
     const skip = (pageNumber - 1) * pageSize
 
-    const hotels = await Hotel.find(query).sort(sortOptions).skip(skip).limit(pageSize)
+    const hotels = await Hotel.find(query)
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(pageSize)
     const total = await Hotel.countDocuments(query)
 
     const response: HotelSearchResponse = {
@@ -56,7 +66,6 @@ router.get('/search', async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Something went wrong' })
   }
 })
-
 
 router.get(
   '/:id',
@@ -77,6 +86,96 @@ router.get(
   }
 )
 
+router.post(
+  '/:hotelId/bookings/payment-intent',
+  verifyToken,
+  async (req: Request, res: Response) => {
+    const { numberOfNights } = req.body
+    console.log(numberOfNights)
+
+    const hotelId = req.params.hotelId
+
+    const hotel = await Hotel.findById(hotelId)
+
+    if (!hotel) {
+      return res.status(400).json({ message: 'Hotel not found' })
+    }
+    const totalCost = hotel.pricePerNight * numberOfNights
+    console.log(totalCost)
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: totalCost,
+      currency: 'gbp',
+      metadata: {
+        hotelId,
+        userId: req.userId,
+      },
+    })
+    if (!paymentIntent.client_secret) {
+      return res.status(500).json({ message: 'Error creating payment intent' })
+    }
+
+    const response: PaymentIntentResponse = {
+      paymentIntentId: paymentIntent.id,
+      clientSecret: paymentIntent.client_secret.toString(),
+      totalCost,
+    }
+
+    console.log(response)
+    return res.status(200).json(response)
+  }
+)
+
+router.post(
+  '/:hotelId/bookings',
+  verifyToken,
+  async (req: Request, res: Response) => {
+    try {
+      const paymentIntentId = req.body.paymentIntentId
+      const paymentIntent = await stripe.paymentIntents.retrieve(
+        paymentIntentId as string
+      )
+
+      if (!paymentIntent) {
+        return res.status(400).json({ message: 'payment intent not found' })
+      }
+
+      if (
+        paymentIntent.metadata.hotelId !== req.params.hotelId ||
+        paymentIntent.metadata.userId !== req.userId
+      ) {
+        return res.status(400).json({ message: 'Payment intent mismatched' })
+      }
+
+      if (paymentIntent.status !== 'succeeded') {
+        return res
+          .status(400)
+          .json({
+            message: `payment intent not succeeded. Status: ${paymentIntent.status}`,
+          })
+      }
+
+      const newBooking: BookingType = {
+        ...req.body,
+        userId: req.userId,
+      }
+
+      const hotel = await Hotel.findOneAndUpdate(
+        { _id: req.params.hotelId },
+        { $push: { bookings: newBooking } }
+      )
+      if (!hotel) {
+        return res.status(400).json({ message: 'Hotel not found' })
+      }
+      await hotel.save()
+      res.status(200).send()
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({ message: 'Something went wrong' })
+    }
+  }
+
+  )
 
 const constructSearchQuery = (queryParams: any) => {
   let constructedQuery: any = {}
