@@ -40,6 +40,6 @@ app.use('*', (req, res) => {
   res.sendFile(path.join(__dirname+'/../../frontend/dist/index.html'))
 })
 
-app.listen(7000, () => {
-  console.log('App listening on port 7000')
+app.listen(5000, () => {
+  console.log('App listening on port 5000')
 })

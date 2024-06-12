@@ -37,8 +37,6 @@ const Booking = () => {
     }
   )
 
-  console.log(paymentIntentData)
-
   const { data: hotel } = useQuery(
     'fetchHotelById',
     () => apiClient.fetchHotelById(hotelId as string),
