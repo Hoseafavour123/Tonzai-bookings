@@ -1,6 +1,7 @@
 import { RegisterFormData } from "./pages/SignUp";
 import { LoginForm } from "./pages/SignIn";
 import { BookingFormData } from "./forms/BookingForm/BookingForm";
+import { BookingType } from "./pages/MyBookings";
 
 
 export type UserType = {
@@ -26,6 +27,7 @@ export type HotelType = {
   starRating: number
   imageUrls: string[]
   lastUpdated: Date
+  bookings: BookingType[]
 }
 
 
@@ -58,8 +60,8 @@ export type PaymentIntentResponse = {
   totalCost: number
 }
 
-//const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
-const API_BASE_URL = 'https://tonzai-bookings.onrender.com'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+//const API_BASE_URL = 'https://tonzai-bookings.onrender.com'
 
 export const fetchCurrentUser = async (): Promise<UserType> => {
     const response = await fetch(`${API_BASE_URL}/api/users/me`, {
@@ -230,7 +232,7 @@ export const createPaymentIntent = async (hotelId: string, numberOfNights: strin
 }
 
 export const createBooking = async (formData: BookingFormData) => {
-    const response = await fetch(`${API_BASE_URL}/${formData.hotelId}/bookings`, {
+    const response = await fetch(`${API_BASE_URL}/api/hotels/${formData.hotelId}/bookings`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -242,4 +244,15 @@ export const createBooking = async (formData: BookingFormData) => {
     if (!response.ok) {
         throw new Error('Error booking room')
     }
+}
+
+
+export const fetchMyBookings = async (): Promise<HotelType[]> => {
+    const response = await fetch(`${API_BASE_URL}/api/my-bookings`, {
+        credentials: 'include'
+    });
+    if (!response.ok) {
+        throw new Error('Unable to fetch bookings')
+    }
+    return response.json()
 }

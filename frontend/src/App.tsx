@@ -12,6 +12,7 @@ import SearchBar from './components/SearchBar'
 import Search from './pages/Search'
 import Details from './pages/Details'
 import Booking from './pages/Booking'
+import MyBookings from './pages/MyBookings'
 
 function App() {
   const {isLoggedIn} = useAppContext()
@@ -28,7 +29,7 @@ function App() {
         <Route path="/detail/:hotelId" element={<Details />} />
         {isLoggedIn && (
           <>
-            <Route path="/hotel/:hotelId/booking" element={<Booking/>} />
+            <Route path="/hotel/:hotelId/booking" element={<Booking />} />
           </>
         )}
         {isLoggedIn && (
@@ -39,6 +40,11 @@ function App() {
         {isLoggedIn && (
           <>
             <Route path="/my-hotels" element={<MyHotels />} />
+          </>
+        )}
+        {isLoggedIn && (
+          <>
+            <Route path="/my-bookings" element={<MyBookings />} />
           </>
         )}
         {isLoggedIn && (

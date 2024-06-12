@@ -8,7 +8,7 @@ const HotelDetailsSection = () => {
     formState: { errors },
   } = useFormContext<HotelFormData>()
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 min-h-screen">
       <h1 className="text-3xl font-bold mb-2">Add Hotel</h1>
       <div className="mt-5">
         <FloatingLabel

@@ -101,7 +101,6 @@ router.post(
       return res.status(400).json({ message: 'Hotel not found' })
     }
     const totalCost = hotel.pricePerNight * numberOfNights
-    console.log(totalCost)
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: totalCost * 100,
@@ -121,7 +120,6 @@ router.post(
       totalCost,
     }
 
-    console.log(response)
     return res.status(200).json(response)
   }
 )
